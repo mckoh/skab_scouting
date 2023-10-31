@@ -62,15 +62,15 @@ class PreparationEngine:
         :return: None
         """
 
+        # Create some temporary files
         xv = self._X.values
         yv = self._y.values
-
-        a_snips = []
-        b_snips = []
 
         for i in range(0, len(xv)-window_size, shift):
             self._X_snips.append(xv[i:i+window_size])
             self._y_snips.append(yv[i+window_size])
+
+        print(f"I have created {len(self._X_snips)} snippets.")
 
     def split_data(self, x_cols=X_COLUMNS, y_cols=Y_COLUMNS, window_size=10, shift=10):
         """Lets you perform a vertical and a horizontal split in one go

@@ -5,7 +5,13 @@ Date: October 2023
 """
 
 
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import RobustScaler
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.pipeline import make_pipeline
+
 from numpy import array, append
+
 from .functions import load_data_from_dir
 
 
@@ -47,7 +53,7 @@ class PreparationEngine:
         self._window_size = None
         self._shift = None
 
-    def __split_vertically(self, x_cols, y_cols):
+    def __split_vertically(self, x_cols, y_cols, preprocess):
         """Lets you select the columns that are used as machine learning input
 
         :param x_cols: A list of column names
@@ -65,6 +71,9 @@ class PreparationEngine:
         :return: None
         """
 
+        # reset the lists in case the user runs splitter function twice
+        self._X_snips, self._y_snips = [], []
+
         # Create some temporary files
         xv = self._X.values
         yv = self._y.values
@@ -79,7 +88,7 @@ class PreparationEngine:
         self._X_snips = array(self._X_snips)
         self._y_snips = array(self._y_snips)
 
-    def split_data(self, x_cols=X_COLUMNS, y_cols=Y_COLUMNS, window_size=10, shift=1):
+    def split_data(self, x_cols=X_COLUMNS, y_cols=Y_COLUMNS, window_size=10, shift=1, preprocess=False):
         """Lets you perform a vertical and a horizontal split in one go
 
         This function is necessary, as it is common to first do a vertical
@@ -92,8 +101,17 @@ class PreparationEngine:
         :return: None
         """
 
-        self.__split_vertically(x_cols, y_cols)
+        self.__split_vertically(x_cols, y_cols, preprocess)
         self.__split_horizontally(window_size, shift)
+
+    def preprocess_data(self):
+        # TODO: implement a preprocessing pipeline that allows
+        # - scaling
+        # - imputing
+        # ...
+        pass
+
+    # TODO: Implement further functions (e.g. for ML, visualization, ...)
 
     # GETTER FUNCTIONS
 
@@ -127,5 +145,3 @@ class PreparationEngine:
         :return: Shapes as tuple (X.shape, y.shape)
         """
         return self._X_snips.shape, self._y_snips.shape
-
-    #TODO: Data Visualization

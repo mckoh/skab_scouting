@@ -10,7 +10,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
 
-from numpy import array, append
+from numpy import array
 
 from .functions import load_data_from_dir
 
@@ -26,9 +26,7 @@ X_COLUMNS = [
     "Volume Flow RateRMS"
 ]
 
-Y_COLUMNS = [
-    "anomaly"
-]
+Y_COLUMNS = ["anomaly"]
 
 
 class PreparationEngine:
@@ -105,13 +103,13 @@ class PreparationEngine:
         self.__split_horizontally(window_size, shift)
 
     def preprocess_data(self):
-        # TODO: implement a preprocessing pipeline that allows
+        # TODO implement a preprocessing pipeline that allows
         # - scaling
         # - imputing
         # ...
         pass
 
-    # TODO: Implement further functions (e.g. for ML, visualization, ...)
+    # TODO Implement further functions (e.g. for ML, visualization, ...)
 
     # GETTER FUNCTIONS
 
